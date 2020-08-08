@@ -1,0 +1,8 @@
+Insert json to the database
+
+
+
+npm install mongodb
+Install core
+install express
+install time moment

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+ 
+
+  <script type="text/javascript">
+
+$(".heart.fa").click(function() {
+  $(this).toggleClass("fa-heart fa-heart-o");
+});
+
+$('.my_selector').click(function(){
+   $.get('http://localhost:3000/Students', {}, function(data){
+        console.log(data)
+   });
+});
+var respp;
+ function myFunction() {
+     $("#dataTable").find("tr:gt(0)").remove();
+  //   $("#table2").find("tr:gt(0)").remove();
+   var inpObj = document.getElementById("id1").value;
+  // var inpObj2 = document.getElementById("search").value;
+
+var resp=JSON.parse(Get("http://localhost:3000/Students/"+inpObj));
+//var jsonPretty = JSON.stringify(JSON.parse(resp),null,2);  
+  //  document.getElementById("id01").innerHTML = jsonPretty;
+//   if(inpObj=="sessions")
+//   {
+
+// $("#table1").hide();
+// $("#table2").show();
+// $.each(resp, function(i, d) {
+//    var row='<tr>';
+//  //  $.each(d, function(j, e) {
+// //      row+='<td>'+e+'</td>';
+//  //  });
+//   row+='<td>'+d.id+'</td>';
+//   row+='<td>'+d.title+'</td>';
+//   row+='<td>'+d.location+'</td>';
+//    row+='</tr>';
+//    $('#table2 tbody').append(row);
+// });
+//    return;
+//   }
+//   else
+//   {
+//  $("#table2").hide();
+//  $("#table1").show();
+//   }
+  respp=resp;
+    $.each(resp, function(i, d) {
+   var row='<tr>';
+ //  $.each(d, function(j, e) {
+//      row+='<td>'+e+'</td>';
+ //  });
+  row+='<td>'+d.id+'</td>';
+  row+='<td>'+d.name+'</td>';
+  row+='<td>'+d.Surname+'</td>';
+  row+='<td>'+d.DOB+'</td>';
+  row+='<td>'+d.Stage+'</td>'; 
+ // row+='<td>'+d.Favorite+'</td>';
+  // row+='<td>'+d.ratings+'</td>';
+
+  // row+='<td> <div class="input-group mb-3"> <input type="text" id="'+d.id+'" class="form-control" value="'+d.ratings+'" placeholder="Rating.."><div class="input-group-append"><button class="btn btn-primary" onclick="RateTalk(\''+d.id+'\')"type="button">OK</button><button class="btn btn-danger" type="button">Cancel</button> </div></div></td>';
+
+ 
+// if(d.Favorite=="yes"){
+
+//  row+='<td><button type="button" onclick="SetFavorite(\''+d.id+'\',\'no\')"   class="btn btn-danger">Remove</button></td>';
+ 
+// }
+// else 
+// {
+//    row+='<td><button type="button" onclick="SetFavorite(\''+d.id+'\',\'yes\')" class="btn btn-success">Favorite</button></td>';
+// }
+
+//  row+='<button class="btn btn-primary" onclick="AddtoFav(\''+d.id+'\')"type="button">OK</button><button class="btn btn-danger" type="button">Cancel</button> </div></div></td>'
+
+   row+='</tr>';
+   $('#dataTable tbody').append(row);
+});
+
+ } ;
+
+ $(document).ready(function(e){
+ 
+ $("#table2").hide();
+   $("#table1").show();
+ 
+});
+
+
+ function RateTalk(textrate){
+
+  var inpObj = document.getElementById(textrate).value;
+
+var resp=JSON.parse(Get("http://localhost:3000/talks/rate/".concat(textrate,'/',inpObj)));
+ }
+///talks/Favorite/
+ function SetFavorite(idd,fav){
+
+Get("http://localhost:3000/talks/Favorite/".concat(idd,'/',fav));
+myFunction();
+ }
+
+ function Get(yourUrl){
+    var Httpreq = new XMLHttpRequest(); // a new request
+    Httpreq.open("GET",yourUrl,false);
+    Httpreq.send(null);
+    return Httpreq.responseText;          
+}
+</script>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>College System</title>
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand" href="index.html">IT College</a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button
+            ><!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ml-auto ml-md-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="#">Settings</a><a class="dropdown-item" href="#">Activity Log</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="login.html">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+             <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                             <a class="nav-link" href="Students.html"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Students</a>
+
+                                        <a class="nav-link" href="Grades.html"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Grades</a>
+
+
+                                        <a class="nav-link" href="Stage.html"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Stages</a>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        Baneen
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        <h1 class="mt-4">Network Students</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="index.html">College</a></li>
+                            <li class="breadcrumb-item active">Stage</li>
+                        </ol>
+                        <!--<div class="card mb-4">
+                            <div class="card-body">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>.</div>
+                        </div>-->
+                        <div class="input-group-btn search-panel border">
+                 Choose Stage:
+                          <select id="id1" name="conf"  class="btn btn-default dropdown-toggle"   >
+                          <option value="Stage/1">Stage 1</option>
+                          <option value="Stage/2">Stage 2</option>
+                          <option value="Stage/3">Stage 3</option>
+                          <option value="Stage/4">Stage 4</option>  
+                        </select>
+               <button class="btn btn-success" onclick="myFunction()">Go</button> </div>    
+
+                        <div class="card mb-4">
+                             <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Surname</th>
+                                                <th>DOB</th>
+                                                <th>Stage</th> 
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody>
+                                      
+                                  
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Baneen</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/datatables-demo.js"></script>
+    </body>
+</html>
